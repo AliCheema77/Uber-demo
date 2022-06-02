@@ -156,6 +156,7 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DISABLE_COLLECTSTATIC=1
 
 ACCOUNT_SID = env.str("ACCOUNT_SID")
 AUTH_TOKEN = env.str("AUTH_TOKEN")

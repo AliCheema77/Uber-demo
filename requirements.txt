@@ -16,3 +16,6 @@ django-cors-headers==3.10.1
 whitenoise==6.1.0
 cloudinary==1.29.0
 django-cloudinary-storage==0.3.0
+gunicorn==20.1.0
+django-heroku==0.3.1
+

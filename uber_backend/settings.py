@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import os
 from datetime import timedelta
+import django_heroku
 
 env = environ.Env()
 env.read_env('.env')
@@ -213,4 +214,6 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     # Use custom serializer that has no username and matches web signup
     "REGISTER_SERIALIZER": "users.api.v1.serializers.SignupSerializer",
 }
+
+django_heroku.settings(locals())
 

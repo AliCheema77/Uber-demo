@@ -146,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 CLOUDINARY_STORAGE = {
              'CLOUD_NAME': os.environ.get("CLOUD_NAME"),
-             'API_KEY': os.environ.get("API_KEY"),
+             'API_KEY': '217375384818832',
              'API_SECRET': os.environ.get("API_SECRET")
             }
 

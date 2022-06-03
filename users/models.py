@@ -27,7 +27,7 @@ class User(AbstractUser):
     )
     phone_number = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
-    city = models.CharField(max_length=100)
+    city = models.CharField(max_length=100, null=True, blank=True)
     invite_code = models.CharField(max_length=50, null=True, blank=True)
     vehicle = models.CharField(choices=VEHICLE_CHOICES, max_length=100, null=True, blank=True)
     partner_photo = models.ImageField(upload_to="user_detail/")

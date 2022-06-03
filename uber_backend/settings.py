@@ -72,6 +72,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'uber_backend.urls'
+SITE_ID = 1
 
 TEMPLATES = [
     {

@@ -16,6 +16,7 @@ from users.models import get_random_str, UserSignupCode
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
+from allauth.account.models import EmailAddress
 
 
 User = get_user_model()
@@ -195,6 +196,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
+        email = attrs.get("email")
+        instance = EmailAddress.objects.filter(email=email).first()
+        if not instance.verified:
+            raise serializers.ValidationError(f"{email} is not verified email!")
 
         refresh = self.get_token(self.user)
 

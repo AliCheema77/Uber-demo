@@ -1,21 +1,13 @@
-import csv
-import tempfile
 from allauth.account.models import EmailAddress
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.files import File
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from rest_framework import status, permissions
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.decorators import action
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet, ViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from twilio.rest import Client
 from django.conf import settings
@@ -28,7 +20,6 @@ from users.api.v1.serializers import (
     CustomTokenObtainPairSerializer,
     ResendUserSignupEmailSerializer
 )
-# from users.api.v2.serializers import SignupSerializerV2
 from users.models import get_random_str, UserSignupCode
 
 
@@ -116,31 +107,6 @@ class ResendSignupUserEmailViewSet(ListCreateAPIView):
                 return Response({"response": "Confirmation email sent."})
             return Response({"response": "User already verified."})
         return Response({"response": "Email does not exist."})
-
-
-# class VerifyUserSignupCodeViewSet(ListCreateAPIView):
-#     serializer_class = VerifyUserSignupCodeSerializer
-#     queryset = UserSignupCode.objects.none()
-#     permission_classes = [permissions.AllowAny]
-#
-#     def get(self, request, *args, **kwargs):
-#         return Response()
-#
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         code = serializer.data.get("code")
-#         user_code = UserSignupCode.objects.filter(code=code)
-#         if user_code:
-#             email = user_code.first().email
-#             EmailAddress.objects.filter(email__exact=email).update(verified=True)
-#             user_code.delete()
-#             user = get_user_model().objects.filter(email__exact=email).first()
-#             token, created = Token.objects.get_or_create(user=user)
-#             user_serializer = UserSerializer(user)
-#             response = {"key": token.key, "user_detail": user_serializer.data, "message": "Email is verified."}
-#             return Response(response, status=status.HTTP_200_OK)
-#         return Response({"response": "Invalid code."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

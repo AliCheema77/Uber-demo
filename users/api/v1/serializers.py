@@ -29,8 +29,8 @@ class SignupSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id",  'first_name', 'last_name', "email", 'city', 'invite_code', 'partner_photo', 'vehicle',
-            'vehicle_registration_book', 'driving_licence_front_side', 'account_type', 'terms_and_conditions',
-            "password")
+            'vehicle_registration_book', 'driving_licence_front_side', 'phone_number', 'account_type',
+            'terms_and_conditions', "password")
         extra_kwargs = {
             "password": {"write_only": True, "style": {"input_type": "password"}},
             "email": {
@@ -70,6 +70,7 @@ class SignupSerializer(serializers.ModelSerializer):
             partner_photo = validated_data.get("partner_photo")
             first_name = validated_data.get("first_name")
             last_name = validated_data.get("last_name")
+            phone_number = validated_data.get("phone_number")
             vehicle = validated_data.get("vehicle")
             invite_code = validated_data.get("invite_code")
             city = validated_data.get("city")
@@ -82,6 +83,8 @@ class SignupSerializer(serializers.ModelSerializer):
                 user.first_name = first_name
             if last_name:
                 user.last_name = last_name
+            if phone_number:
+                user.phone_number = phone_number
             if partner_photo:
                 user.partner_photo = partner_photo
             if vehicle:

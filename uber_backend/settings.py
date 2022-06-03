@@ -147,7 +147,7 @@ USE_TZ = True
 CLOUDINARY_STORAGE = {
              'CLOUD_NAME': os.environ.get("CLOUD_NAME"),
              'API_KEY': '217375384818832',
-             'API_SECRET': os.environ.get("API_SECRET")
+             'API_SECRET': 'LWylYpbXLFAl5l2xbQ6LMc3ZAfA'
             }
 
 STATIC_URL = '/static/'

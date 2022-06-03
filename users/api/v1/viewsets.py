@@ -33,9 +33,9 @@ from users.models import get_random_str, UserSignupCode
 
 
 User = get_user_model()
-account_sid = settings.ACCOUNT_SID
-auth_token = settings.AUTH_TOKEN
-client = Client(account_sid, auth_token)
+# account_sid = settings.ACCOUNT_SID
+# auth_token = settings.AUTH_TOKEN
+# client = Client(account_sid, auth_token)
 
 
 class SignupViewSet(ModelViewSet):

@@ -40,7 +40,7 @@ class User(AbstractUser):
     created = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
 
 @receiver(reset_password_token_created)

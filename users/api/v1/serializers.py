@@ -110,7 +110,7 @@ class SignupSerializer(serializers.ModelSerializer):
                 )
         except Exception as e:
             raise serializers.ValidationError(
-                _(f"error while creating user {e}")
+                _(f"error while creating user... {e}")
             )
         return user
 

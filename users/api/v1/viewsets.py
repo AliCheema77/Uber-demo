@@ -11,6 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView
 from twilio.rest import Client
 from django.conf import settings
+from rest_framework.permissions import IsAuthenticated
 
 from users.api.v1.serializers import (
     SignupSerializer,
@@ -38,6 +39,7 @@ class SignupViewSet(ModelViewSet):
 class UserProfileViewSet(ModelViewSet):
     serializer_class = UserProfileSerializer
     queryset = User.objects.none()
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return User.objects.filter(email=self.request.user.email)

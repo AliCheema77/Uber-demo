@@ -36,13 +36,15 @@ class SignupViewSet(ModelViewSet):
     http_method_names = ["post"]
 
 
-class UserProfileViewSet(ModelViewSet):
+class UserProfileViewSet(ListCreateAPIView):
     serializer_class = UserProfileSerializer
     queryset = User.objects.none()
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return User.objects.filter(email=self.request.user.email)
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(email=request.user.email)
+        serializer = self.serializer_class(user, many=False)
+        return Response({"user_detail": serializer.data}, status=status.HTTP_200_OK)
 
 
 class VerifyUserSignupCodeViewSet(ListCreateAPIView):

@@ -12,7 +12,6 @@ from users.api.v1.viewsets import (
 
 router = DefaultRouter()
 router.register("signup", SignupViewSet, basename="signup")
-router.register("profile", UserProfileViewSet, basename="profile")
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -24,5 +23,6 @@ urlpatterns = [
     path('resend-email/', ResendSignupUserEmailViewSet.as_view(), name='resend-email'),
     path('forgot-password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+    path('profile/', UserProfileViewSet.as_view(), name='profile'),
 
 ]

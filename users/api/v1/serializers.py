@@ -164,8 +164,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "email", 'first_name', 'last_name', 'partner_photo', 'city', 'invite_code', 'vehicle',
-                  'phone_number', 'vehicle_registration_book', 'driving_licence_front_side', 'account_type',
+        fields = ["id", 'username', "email", 'first_name', 'last_name', 'phone_number', 'city', 'invite_code',
+                  'vehicle', "partner_photo", 'vehicle_registration_book', 'driving_licence_front_side', 'account_type',
                   'terms_and_conditions', 'created', 'updated']
         extra_kwargs = {
             "email": {

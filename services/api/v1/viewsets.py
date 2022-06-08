@@ -27,6 +27,6 @@ class PickDropView(APIView):
                 if lower(driver.city) in pick or lower(driver.city) in destination:
                     drivers_data = UserProfileSerializer(driver, many=False)
                     local_drivers.append(drivers_data.data)
-            return Response({'drivers': str(local_drivers)}, status=status.HTTP_200_OK)
+            return Response({'drivers': local_drivers}, status=status.HTTP_200_OK)
         return Response({'error': "there is error"}, status=status.HTTP_400_BAD_REQUEST)
 

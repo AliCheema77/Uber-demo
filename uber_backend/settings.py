@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django.contrib.sites',
     'users',
+    'services',
 
     'rest_framework',
     'rest_framework.authtoken',

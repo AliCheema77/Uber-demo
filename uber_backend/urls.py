@@ -22,6 +22,7 @@ from allauth.account.views import confirm_email
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include("users.api.v1.urls")),
+    path('api/v1/', include("services.api.v1.urls")),
 
     path("accounts/", include("allauth.urls")),
     path("rest-auth/", include("rest_auth.urls")),

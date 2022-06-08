@@ -5,6 +5,7 @@ from services.api.v1.serializers import PickDropSerializer
 from rest_framework.views import APIView
 from django.db.models import Q
 from users.api.v1.serializers import UserProfileSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 User = get_user_model()
@@ -12,6 +13,7 @@ User = get_user_model()
 
 class PickDropView(APIView):
     serializer_class = PickDropSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

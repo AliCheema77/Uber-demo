@@ -22,10 +22,6 @@ class PickDropView(APIView):
             local_drivers = []
             pick = lower(serializer.validated_data["pick"])
             destination = lower(serializer.validated_data["destination"])
-            # city_pick = pick.split(",")[1]
-            # city_destination = pick.split(",")[1]
-            # if city_pick != city_destination:
-            #     return Response({'drivers': []}, status=status.HTTP_200_OK)
             drivers = User.objects.filter(account_type="drive_and_deliver")
             for driver in drivers:
                 if lower(driver.city) in pick:

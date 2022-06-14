@@ -11,8 +11,8 @@ class RiderRequest(models.Model):
     destination_coordinates = models.CharField(max_length=255)
     pickup_coordinates = models.CharField(max_length=255)
     status = models.CharField(max_length=10)
-    requester = models.OneToOneField(User, on_delete=models.CASCADE, related_name="requester_user")
-    deriver = models.OneToOneField(User, on_delete=models.CASCADE, related_name="deriver_user")
+    requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requester_user")
+    deriver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="deriver_user")
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

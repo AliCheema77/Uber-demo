@@ -40,5 +40,24 @@ class RiderRequestView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+            return Response({"response": serializer.data}, status=status.HTTP_201_OK)
         return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RideRequestView(APIView):
+    serializer_class = RiderRequestSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id=None):
+        if id is not None:
+            user = User.objects.get(id=id)
+            if user.account_type == "drive_and_deliver":
+                made_request = RiderRequest.objects.filter(deriver_id=id)
+                serializer = self.serializer_class(made_request, many=True)
+                return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+            elif user.account_type == "rider":
+                made_request = RiderRequest.objects.filter(requester_id=id)
+                serializer = self.serializer_class(made_request, many=True)
+                return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"response": "This id is not request"}, status=status.HTTP_400_BAD_REQUEST)
+

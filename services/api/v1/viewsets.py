@@ -39,8 +39,13 @@ class RiderRequestView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({"response": serializer.data}, status=status.HTTP_201_CREATED)
+            requester = serializer.validated_data["requester"]
+            deriver = serializer.validated_data["deriver"]
+            obj = RiderRequest.objects.filter(requester=requester, deriver=deriver).first()
+            if obj is None:
+                serializer.save()
+                return Response({"response": serializer.data}, status=status.HTTP_201_CREATED)
+            return Response({"response": "You have already made request to that Driver"})
         return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 

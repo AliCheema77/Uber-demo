@@ -23,6 +23,6 @@ class RiderRequestSerializer(serializers.ModelSerializer):
             }
         data["deriver"] = {
             "id": instance.requester.id,
-            "username": instance.requester.username,
+            "username": instance.deriver.username,
             }
         return data

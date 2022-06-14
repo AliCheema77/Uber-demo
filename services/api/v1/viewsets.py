@@ -51,11 +51,11 @@ class RideRequestView(APIView):
     def get(self, request):
         user = User.objects.get(id=request.user.id)
         if user.account_type == "drive_and_deliver":
-            made_request = RiderRequest.objects.filter(deriver_id=id)
+            made_request = RiderRequest.objects.filter(deriver_id=user.id)
             serializer = self.serializer_class(made_request, many=True)
             return Response({"response": serializer.data}, status=status.HTTP_200_OK)
         elif user.account_type == "rider":
-            made_request = RiderRequest.objects.filter(requester_id=id)
+            made_request = RiderRequest.objects.filter(requester_id=user.id)
             serializer = self.serializer_class(made_request, many=True)
             return Response({"response": serializer.data}, status=status.HTTP_200_OK)
         return Response({"response": "This is not valid User Id"}, status=status.HTTP_400_BAD_REQUEST)

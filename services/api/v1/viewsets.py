@@ -40,7 +40,7 @@ class RiderRequestView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"response": serializer.data}, status=status.HTTP_201_OK)
+            return Response({"response": serializer.data}, status=status.HTTP_201_CREATED)
         return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 

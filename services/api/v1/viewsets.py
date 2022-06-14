@@ -34,6 +34,7 @@ class PickDropView(APIView):
 
 class RiderRequestView(APIView):
     serializer_class = RiderRequestSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

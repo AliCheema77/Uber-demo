@@ -1,3 +1,26 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-# Create your models here.
+
+User = get_user_model()
+
+
+class RiderRequest(models.Model):
+    destination_label = models.CharField(max_length=255)
+    pickup_label = models.CharField(max_length=255)
+    destination_coordinates = models.CharField(max_length=255)
+    pickup_coordinates = models.CharField(max_length=255)
+    status = models.CharField(max_length=10)
+    requester = models.OneToOneField(User, on_delete=models.CASCADE, related_name="requester_user")
+    deriver = models.OneToOneField(User, on_delete=models.CASCADE, related_name="deriver_user")
+
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.requester.username
+
+    class Meta:
+        verbose_name = "Rider Request"
+        verbose_name_plural = "Rider Requests"
+        ordering = ["-created_at"]

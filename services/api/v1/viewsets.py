@@ -7,7 +7,8 @@ from rest_framework.views import APIView
 from django.db.models import Q
 from users.api.v1.serializers import UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from services.models import RiderRequest
+from services.api.v1.serializers import RiderRequestSerializer
 
 User = get_user_model()
 
@@ -30,3 +31,13 @@ class PickDropView(APIView):
             return Response({'drivers': local_drivers}, status=status.HTTP_200_OK)
         return Response({'error': "there is error"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class RiderRequestView(APIView):
+    serializer_class = RiderRequestSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

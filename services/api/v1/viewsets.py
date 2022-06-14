@@ -60,3 +60,20 @@ class RideRequestView(APIView):
             return Response({"response": serializer.data}, status=status.HTTP_200_OK)
         return Response({"response": "This is not valid User Id"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class CancelRideView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id=None):
+        if id is not None:
+            try:
+                cancel_ride = RiderRequest.objects.get(id=id)
+                if cancel_ride.id:
+                    ride_id = cancel_ride.id
+                    cancel_ride.delete()
+                    return Response({"response": f"Your ride ID NO:{ride_id} has been cancel successfully!"})
+            except:
+                return Response({"response": "We can not find any Ride for canceling."})
+        return Response({"response": "Please Provide the ID of Ride, which you want to cancel."})
+
+

@@ -5,5 +5,5 @@ from services.api.v1.viewsets import PickDropView, RiderRequestView, RideRequest
 urlpatterns = [
     path('pick_drop/', PickDropView.as_view(), name="pick_drop"),
     path('rider_request/', RiderRequestView.as_view(), name="rider_request"),
-    path('requests/<int:id>/', RideRequestView.as_view(), name="request"),
+    path('requests/', RideRequestView.as_view(), name="request"),
 ]

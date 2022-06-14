@@ -59,5 +59,5 @@ class RideRequestView(APIView):
                 made_request = RiderRequest.objects.filter(requester_id=id)
                 serializer = self.serializer_class(made_request, many=True)
                 return Response({"response": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"response": "This id is not request"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"response": "This is not valid User Id"}, status=status.HTTP_400_BAD_REQUEST)
 

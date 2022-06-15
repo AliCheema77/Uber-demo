@@ -104,11 +104,11 @@ class DriverCancelAcceptRideView(APIView):
                 if ride_request is not None:
                     requester = ride_request.requester
                     driver = ride_request.deriver
-                    rider_request = ride_request.id
                     accepted_request = DriverAcceptedRequest(requester=requester, driver=driver,
-                                                             ride_request=rider_request)
+                                                             rider_request=ride_request)
                     accepted_request.save()
-                    ride_request.delete()
+                    ride_request.status = 1
+                    ride_request.save()
                     return Response({"response": f"You have accepted the request!"}, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({"response": "There is no any request of that ID."},

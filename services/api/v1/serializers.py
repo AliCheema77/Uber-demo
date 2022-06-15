@@ -20,10 +20,14 @@ class RiderRequestSerializer(serializers.ModelSerializer):
         data["requester"] = {
             "id": instance.requester.id,
             "username": instance.requester.username,
+            "email": instance.requester.email,
+            "phone_number": instance.requester.phone_number
             }
         data["deriver"] = {
             "id": instance.deriver.id,
             "username": instance.deriver.username,
+            "email": instance.deriver.email,
+            "phone_number": instance.deriver.phone_number
             }
         return data
 

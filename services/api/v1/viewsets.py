@@ -109,7 +109,8 @@ class DriverCancelAcceptRideView(APIView):
                     accepted_request.save()
                     ride_request.status = 1
                     ride_request.save()
-                    return Response({"response": f"You have accepted the request!"}, status=status.HTTP_202_ACCEPTED)
+                    serializer_ride_request = RiderRequestSerializer(ride_request, many=False)
+                    return Response({"response": serializer_ride_request.data}, status=status.HTTP_202_ACCEPTED)
                 else:
                     return Response({"response": "There is no any request of that ID."},
                                     status=status.HTTP_400_BAD_REQUEST)

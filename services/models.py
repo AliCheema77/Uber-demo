@@ -24,3 +24,20 @@ class RiderRequest(models.Model):
         verbose_name = "Rider Request"
         verbose_name_plural = "Rider Requests"
         ordering = ["-created_at"]
+
+
+class DriverAcceptedRequest(models.Model):
+    requester = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accepted_request")
+    driver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="acceptor_driver")
+    rider_request = models.ForeignKey(RiderRequest, on_delete=models.CASCADE, related_name="rider_request_object")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.requester.username
+
+    class Meta:
+        verbose_name = "Accepted Request"
+        verbose_name_plural = "Accepted Requests"
+        ordering = ["-created_at"]
+

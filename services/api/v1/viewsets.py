@@ -7,8 +7,8 @@ from rest_framework.views import APIView
 from django.db.models import Q
 from users.api.v1.serializers import UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated
-from services.models import RiderRequest
-from services.api.v1.serializers import RiderRequestSerializer
+from services.models import RiderRequest, DriverAcceptedRequest
+from services.api.v1.serializers import RiderRequestSerializer, DriverAcceptCancelRideSerializer
 
 User = get_user_model()
 
@@ -66,7 +66,7 @@ class RideRequestView(APIView):
         return Response({"response": "This is not valid User Id"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CancelRideView(APIView):
+class RequesterCancelRideView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id=None):
@@ -82,3 +82,36 @@ class CancelRideView(APIView):
         return Response({"response": "Please Provide the ID of Ride, which you want to cancel."})
 
 
+class DriverCancelAcceptRideView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DriverAcceptCancelRideSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            id = serializer.validated_data["request_id"]
+            status_request = serializer.validated_data["status"]
+            if status_request == "0":
+                ride_request = RiderRequest.objects.filter(id=id).first()
+                if ride_request is not None:
+                    ride_request.delete()
+                    return Response({"response": "Request for ride is canceled successfully!"},
+                                    status=status.HTTP_200_OK)
+                else:
+                    return Response({"response": "Request is already canceled!"}, status=status.HTTP_400_BAD_REQUEST)
+            if status_request == "1":
+                ride_request = RiderRequest.objects.filter(id=id).first()
+                if ride_request is not None:
+                    requester = ride_request.requester
+                    driver = ride_request.deriver
+                    rider_request = ride_request.id
+                    accepted_request = DriverAcceptedRequest(requester=requester, driver=driver,
+                                                             ride_request=rider_request)
+                    accepted_request.save()
+                    ride_request.delete()
+                    return Response({"response": f"You have accepted the request!"}, status=status.HTTP_202_ACCEPTED)
+                else:
+                    return Response({"response": "There is no any request of that ID."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

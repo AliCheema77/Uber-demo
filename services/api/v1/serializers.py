@@ -26,3 +26,8 @@ class RiderRequestSerializer(serializers.ModelSerializer):
             "username": instance.deriver.username,
             }
         return data
+
+
+class DriverAcceptCancelRideSerializer(serializers.Serializer):
+    request_id = serializers.IntegerField(required=True)
+    status = serializers.CharField(max_length=5, required=True)

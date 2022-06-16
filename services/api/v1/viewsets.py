@@ -4,7 +4,6 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from services.api.v1.serializers import PickDropSerializer
 from rest_framework.views import APIView
-from django.db.models import Q
 from users.api.v1.serializers import UserProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from services.models import RiderRequest, DriverAcceptedRequest
@@ -22,10 +21,12 @@ class PickDropView(APIView):
         if serializer.is_valid(raise_exception=True):
             local_drivers = []
             pick = lower(serializer.validated_data["pick"])
-            destination = lower(serializer.validated_data["destination"])
             drivers = User.objects.filter(account_type="drive_and_deliver")
             for driver in drivers:
                 if lower(driver.city) in pick:
+                    busy_driver = RiderRequest.objects.filter(status="1", deriver=driver).first()
+                    if busy_driver:
+                        continue
                     drivers_data = UserProfileSerializer(driver, many=False)
                     local_drivers.append(drivers_data.data)
             return Response({'drivers': local_drivers}, status=status.HTTP_200_OK)

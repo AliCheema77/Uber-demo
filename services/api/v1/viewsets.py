@@ -116,3 +116,18 @@ class DriverCancelAcceptRideView(APIView):
                                     status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"response": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RideSuccessfulView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id=None):
+        ride_succeeded = RiderRequest.objects.filter(id=id).first()
+        if ride_succeeded is not None:
+            ride_succeeded.delete()
+            return Response({"response", "Thank You For Using Uber Demo Services"})
+        return Response({"response", "This ID is not Exist"})
+
+
+
+

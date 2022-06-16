@@ -125,8 +125,8 @@ class RideSuccessfulView(APIView):
         ride_succeeded = RiderRequest.objects.filter(id=id).first()
         if ride_succeeded is not None:
             ride_succeeded.delete()
-            return Response({"response", "Thank You For Using Uber Demo Services"})
-        return Response({"response", "This ID is not Exist"})
+            return Response({"response": "Thank You For Using Uber Demo Services"})
+        return Response({"response": "This ID is not Exist"})
 
 
 
